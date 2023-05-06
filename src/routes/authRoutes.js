@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
             expiry_date: tokens.expiry_date,
           },
           quota: {
-            limit: 50,
+            limit: 100,
             used: 0,
           },
           executing: false,
