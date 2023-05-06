@@ -26,6 +26,8 @@ module.exports = {
         .setRequired(false)
     ),
   async execute(interaction) {
+    await interaction.deferReply({ ephemeral: true });
+
     let playlistIdToBeAdded = interaction.options.getString('playlist-id');
     const channelFound = interaction.options.getString('channel-name')
       ? interaction.guild.channels.cache.find(
