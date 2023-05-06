@@ -84,6 +84,11 @@ module.exports = {
       oauth2Client.setCredentials(parsedTokens);
     }
 
+    const youtube = google.youtube({
+      version: 'v3',
+      auth: oauth2Client,
+    });
+
     //check if playlist with that id exists
     let existingChannel = null;
     let playlistExists = mongoUser.playlists.some((playlist) => {
