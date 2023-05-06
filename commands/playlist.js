@@ -198,7 +198,9 @@ const createOrUpdatePlaylist = async (
       playListResult && playListResult.data.items.length > 0
         ? playListResult.data.items[0].snippet.title
         : channelFound.name
-    }. Your remaining quota for the day is ${
+    }. ${
+      existingSongs.size
+    } songs already exist. Your remaining quota for the day is ${
       mongoUser.quota.limit - mongoUser.quota.used
     }`,
     ephemeral: true,
