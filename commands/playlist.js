@@ -195,7 +195,7 @@ const createOrUpdatePlaylist = async (
 
   return interaction.editReply({
     content: `Added ${noOfAddedSongs} song(s) to playlist ${
-      playListResult.data.items.length > 0
+      playListResult && playListResult.data.items.length > 0
         ? playListResult.data.items[0].snippet.title
         : channelFound.name
     }. Your remaining quota for the day is ${
@@ -272,7 +272,7 @@ module.exports = {
     if (mongoUser && 'err' in mongoUser) {
       return interaction.editReply({
         content:
-          'An error occured while fetching your user data. Call mom for help.',
+          'An error occured while fetching your user data. Ask the creators for help.',
         ephemeral: true,
       });
     }
