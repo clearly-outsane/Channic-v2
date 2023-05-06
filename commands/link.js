@@ -92,7 +92,7 @@ module.exports = {
     //check if playlist with that id exists
     let existingChannel = null;
     let playlistExists = mongoUser.playlists.some((playlist) => {
-      if (playlist.channel.id === playlistIdToBeAdded) {
+      if (playlist.youtube_id === playlistIdToBeAdded) {
         existingChannel = playlist.channel;
         return true;
       } else {
