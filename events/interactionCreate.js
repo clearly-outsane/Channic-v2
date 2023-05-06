@@ -13,7 +13,7 @@ module.exports = {
       console.error(error);
       await interaction.editReply({
         content:
-          'Kawaii Keeper is overwhelmed. To upgrade Kawaii Keeper consider supporting us!',
+          'Something went wrong while executing this command. Ask the creators for help.',
         ephemeral: true,
       });
     }

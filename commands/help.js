@@ -30,13 +30,10 @@ module.exports = {
     const exampleEmbed = new EmbedBuilder()
       .setColor(0x0099ff)
       .setTitle('List of commands')
-      .setURL('https://kawaiikeeper.vercel.app/')
-      .setDescription(
-        'Available commands and their descriptions for Kawaii Keeper'
-      )
-      .setThumbnail(
-        'https://kawaiikeeper.vercel.app/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Fattachments%2F1054880809145876596%2F1070753426427879464%2Fimage.png&w=640&q=75'
-      )
+      .setDescription('Available commands and their descriptions for Channic')
+      // .setThumbnail(
+      //   'https://kawaiikeeper.vercel.app/_next/image?url=https%3A%2F%2Fcdn.discordapp.com%2Fattachments%2F1054880809145876596%2F1070753426427879464%2Fimage.png&w=640&q=75'
+      // )
       .addFields(embedData);
 
     return interaction.reply({
