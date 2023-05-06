@@ -95,7 +95,7 @@ module.exports = {
 
     let playListResult = await youtube.playlists.list({
       part: 'snippet',
-      id: playlistIdToUpdate,
+      id: playlistIdToBeAdded,
     });
 
     if (!playListResult || playListResult.data.items.length === 0) {
