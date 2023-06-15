@@ -27,6 +27,7 @@ const addSong = async (interaction, youtube, playlistId, videoId) => {
     console.log(error);
     return {
       err: 'Error adding song to playlist',
+      videoId: videoId,
     };
   }
 };
@@ -177,6 +178,7 @@ const createOrUpdatePlaylist = async (
   mongoUser.executing = true;
   await mongoUser.save();
   // Loop through all the messages and add the video to the youtube playlist
+  const failedVideoIds = [];
   for (let i = 0; i < noOfSongs; i++) {
     const res = await addSong(
       interaction,
@@ -185,6 +187,7 @@ const createOrUpdatePlaylist = async (
       filteredVideoIdList[i]
     );
     if (!res || 'err' in res) {
+      failedVideoIds.push(res.videoId);
     } else {
       noOfAddedSongs = noOfAddedSongs + 1;
     }
@@ -202,7 +205,9 @@ const createOrUpdatePlaylist = async (
       existingSongs.size
     } songs already exist. Your remaining quota for the day is ${
       mongoUser.quota.limit - mongoUser.quota.used
-    }`,
+    }. The following videos failed to be added to the playlist: ${failedVideoIds.join(
+      ', '
+    )}`,
     ephemeral: true,
   });
 };
