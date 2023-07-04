@@ -37,7 +37,8 @@ const createOrUpdatePlaylist = async (
   youtube,
   mongoUser,
   videoIdList,
-  channelFound
+  channelFound,
+  skip
 ) => {
   let playlistIdToUpdate = null;
   let filteredVideoIdList = [...videoIdList];
@@ -205,9 +206,13 @@ const createOrUpdatePlaylist = async (
       existingSongs.size
     } songs already exist. Your remaining quota for the day is ${
       mongoUser.quota.limit - mongoUser.quota.used
-    }. The following videos failed to be added to the playlist: ${failedVideoIds.join(
-      ', '
-    )}`,
+    }.  ${
+      failedVideoIds.length > 0
+        ? 'The following videos failed to be added to the playlist: ' +
+          failedVideoIds.join(', ') +
+          '.'
+        : ''
+    } ${skip > 0 ? skip + ' songs were skipped from syncing.' : ''}`,
     ephemeral: true,
   });
 };
@@ -217,7 +222,8 @@ const parseMessages = async (
   youtube,
   mongoUser,
   messages,
-  channelFound
+  channelFound,
+  skip
 ) => {
   let videoIdList = [];
   messages.forEach((message) => {
@@ -230,12 +236,20 @@ const parseMessages = async (
     });
   });
 
+  const numberOfSongsSkipped = Math.abs(Math.min(skip, videoIdList.length));
+
+  const skippedVideoIdList = videoIdList.slice(
+    numberOfSongsSkipped,
+    videoIdList.length
+  );
+
   await createOrUpdatePlaylist(
     interaction,
     youtube,
     mongoUser,
-    videoIdList,
-    channelFound
+    skippedVideoIdList,
+    channelFound,
+    numberOfSongsSkipped
   );
 };
 
@@ -252,9 +266,18 @@ module.exports = {
           'The name of the channel to make a playlist of. If not provided, the current channel will be used.'
         )
         .setRequired(false)
+    )
+    .addIntegerOption((option) =>
+      option
+        .setName('skip')
+        .setDescription(
+          'The number of songs to skip syncing, starting from the latest messages in the channel.'
+        )
+        .setRequired(false)
     ),
   async execute(interaction) {
     await interaction.deferReply({ ephemeral: true });
+    const skip = interaction.options.getInteger('skip') ?? 0;
 
     //Check if the channel exists based on whether the user entered a channel name as an argument or not
     const channelFound = interaction.options.getString('channel-name')
@@ -332,7 +355,8 @@ module.exports = {
           youtube,
           mongoUser,
           messages,
-          channelFound
+          channelFound,
+          skip
         )
     );
   },
