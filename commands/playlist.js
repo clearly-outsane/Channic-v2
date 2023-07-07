@@ -239,8 +239,8 @@ const parseMessages = async (
   const numberOfSongsSkipped = Math.abs(Math.min(skip, videoIdList.length));
 
   const skippedVideoIdList = videoIdList.slice(
-    numberOfSongsSkipped,
-    videoIdList.length
+    0,
+    videoIdList.length - numberOfSongsSkipped
   );
 
   await createOrUpdatePlaylist(
