@@ -271,7 +271,7 @@ module.exports = {
       option
         .setName('skip')
         .setDescription(
-          'The number of songs to skip syncing, starting from the latest messages in the channel.'
+          'The number of songs to skip syncing, starting from the oldest messages in the channel.'
         )
         .setRequired(false)
     ),
